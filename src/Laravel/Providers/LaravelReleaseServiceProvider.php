@@ -3,7 +3,7 @@
 namespace stekel\LaravelRelease;
 
 use Illuminate\Support\ServiceProvider;
-use stekel\LaravelRelease\AssessmentManager;
+use stekel\LaravelRelease\ReleaseManager;
 use stekel\LaravelRelease\Laravel\Console\LaravelRelease as LaravelReleaseCommand;
 
 class LaravelReleaseServiceProvider extends ServiceProvider
@@ -16,21 +16,16 @@ class LaravelReleaseServiceProvider extends ServiceProvider
     protected $defer = true;
     
     /**
-     * Release scripts
-     *
-     * @var array
-     */
-    protected $scripts = [
-        Scripts\Yarn::class,
-    ];
-    
-    /**
      * Bootstrap the application services.
      *
      * @return void
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__.'/../Config/release.php' => config_path('release.php'),
+        ]);
+        
         if ($this->app->runningInConsole()) {
             
             $this->commands([
@@ -46,9 +41,13 @@ class LaravelReleaseServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../Config/release.php', 'release'
+        );
+        
         $this->app->singleton('release', function($app) {
             
-            return new ReleaseManager($this->scripts);
+            return new ReleaseManager(config('release.scripts'));
         });
     }
     
