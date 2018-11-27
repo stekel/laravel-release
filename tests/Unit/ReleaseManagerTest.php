@@ -37,10 +37,12 @@ class ReleaseManagerTest extends TestCase {
             \stekel\LaravelRelease\Tests\Stubs\DevOnlyYarn::class,
         ], new FakeCommandRunner());
         
+        $releaseManager->release('development');
+        
         $this->assertEquals([
             'yarn dev',
             'yarn dev'
-        ], $releaseManager->release('development'));
+        ], $releaseManager->output());
     }
     
     /** @test **/
@@ -50,7 +52,9 @@ class ReleaseManagerTest extends TestCase {
             \stekel\LaravelRelease\Tests\Stubs\ProdOnlyYarn::class,
         ], new FakeCommandRunner());
         
-        $this->assertEquals([], $releaseManager->release('development'));
+        $releaseManager->release('development');
+        
+        $this->assertEquals([], $releaseManager->output());
     }
     
     /** @test **/
@@ -60,6 +64,8 @@ class ReleaseManagerTest extends TestCase {
             \stekel\LaravelRelease\Tests\Stubs\DevOnlyYarn::class,
         ], new FakeCommandRunner());
         
-        $this->assertEquals([], $releaseManager->release('production'));
+        $releaseManager->release('production');
+        
+        $this->assertEquals([], $releaseManager->output());
     }
 }

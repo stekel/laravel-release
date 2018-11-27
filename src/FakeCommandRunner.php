@@ -7,12 +7,11 @@ class FakeCommandRunner extends CommandRunner {
     /**
      * Execute each command
      *
+     * @param  string $command
      * @return string
      */
-    public function execute() {
+    public function execute($command) {
     
-        return collect($this->commands)->map(function($command) {
-            return $command;
-        })->toArray();
+        $this->output[] = $command;
     }
 }

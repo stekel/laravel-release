@@ -60,7 +60,10 @@ class ReleaseManager {
                 $script->$method();
             }
         });
-        
-        return $this->commandRunner->execute();
+    }
+    
+    public function output() {
+    
+        return $this->commandRunner->output;
     }
 }

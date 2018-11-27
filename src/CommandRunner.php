@@ -5,34 +5,20 @@ namespace stekel\LaravelRelease;
 class CommandRunner {
     
     /**
-     * Commands
+     * Command output
      *
      * @var array
      */
-    protected $commands;
-    
-    /**
-     * Add a command
-     *
-     * @param  string $command
-     * @return string
-     */
-    public function add($command) {
-    
-        $this->commands[] = $command;
-        
-        return $this;
-    }
+    public $output = [];
     
     /**
      * Execute each command
      *
+     * @param  string $command
      * @return string
      */
-    public function execute() {
+    public function execute($comand) {
     
-        return collect($this->commands)->map(function($command) {
-            return system($command);
-        })->toArray();
+        $this->output[] = system($command);
     }
 }

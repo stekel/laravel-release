@@ -29,7 +29,7 @@ abstract class Script implements ScriptContract {
      */
     public function console($command) {
     
-        $this->commandRunner->add($command);
+        $this->commandRunner->execute($command);
         
         return $this;
     }
