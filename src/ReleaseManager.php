@@ -12,15 +12,24 @@ class ReleaseManager {
     protected $scripts;
     
     /**
+     * Command runner
+     *
+     * @var CommandRunner
+     */
+    protected $commandRunner;
+    
+    /**
      * Construct
      *
-     * @param array $scripts
+     * @param array         $scripts
+     * @param CommandRunner $commandRunner
      */
-    public function __construct(array $scripts) {
+    public function __construct(array $scripts, CommandRunner $commandRunner=null) {
         
+        $this->commandRunner = $commandRunner ?? new CommandRunner();
         $this->scripts = collect($scripts)->transform(function($script) {
             
-            return class_exists($script) ? new $script() : null;
+            return class_exists($script) ? new $script($this->commandRunner) : null;
         })->filter();
     }
     
@@ -40,16 +49,18 @@ class ReleaseManager {
      * @param  string $env
      * @return void
      */
-    public function release($env='dev') {
+    public function release($env='development') {
         
         $this->scripts->each(function($script) use($env) {
             
-            $method = 'execute'.ucwords($env);
+            $method = $env;
             
             if (method_exists($script, $method)) {
                 
                 $script->$method();
             }
         });
+        
+        return $this->commandRunner->execute();
     }
 }

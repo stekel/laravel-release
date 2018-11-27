@@ -4,6 +4,6 @@ namespace stekel\LaravelRelease;
 
 interface ScriptContract {
     
-    public function executeDev();
-    public function executeProd();
+    public function development();
+    public function production();
 }

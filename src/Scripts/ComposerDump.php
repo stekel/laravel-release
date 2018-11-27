@@ -4,7 +4,7 @@ namespace stekel\LaravelRelease\Scripts;
 
 use stekel\LaravelRelease\Script;
 
-class Yarn extends Script {
+class ComposerDump extends Script {
     
     /**
      * Execute for development environment
@@ -13,7 +13,7 @@ class Yarn extends Script {
      */
     public function development() {
     
-        $this->console('yarn dev');
+        $this->console('composer dump');
     }
     
     /**
@@ -23,6 +23,6 @@ class Yarn extends Script {
      */
     public function production() {
     
-        $this->console('yarn production');
+        $this->console('composer dump');
     }
 }
