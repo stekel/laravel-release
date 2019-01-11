@@ -60,7 +60,6 @@ class LaravelReleaseServiceProvider extends ServiceProvider
     {
         return [
             'release',
-            'runner',
         ];
     }
 }
